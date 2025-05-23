@@ -1,0 +1,26 @@
+services:
+  web:
+    container_name: dumps_web
+    build: ./web
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+      - NEXT_PUBLIC_USERNAME=${NEXT_PUBLIC_USERNAME}
+      - NEXT_PUBLIC_PASSWORD=${NEXT_PUBLIC_PASSWORD}
+    networks:
+      - dump_network
+  api:
+    container_name: dumps_api
+    build: ./api
+    ports:
+      - "3001:3001"
+    environment:
+      - AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING}
+      - CONTAINER_NAME=${CONTAINER_NAME}
+      - ALLOWED_FOLDERS=${ALLOWED_FOLDERS}
+    networks:
+      - dump_network
+networks:
+  dump_network:
+    driver: bridge      
